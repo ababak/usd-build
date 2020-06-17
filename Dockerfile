@@ -3,14 +3,10 @@
 # Author:
 # Andriy Babak <ababak@gmail.com>
 #
-# Commands to build:
-# docker build --rm -t usd-build:latest .
-# docker run --rm -it -v "$(pwd):C:/build" -v "C:/Program Files/Pixar/RenderManProServer-23.3:C:/prman" usd-build:latest
-#
-# Commands to run in PowerShell:
-# cd /your/code/directory
-# docker run --rm -it -v "$(pwd):C:/build" -v "C:/Program Files/Pixar/RenderManProServer-23.3:C:/prman" usd-build:latest
-#
+# Build the docker image:
+# docker build --rm -t usd-build .
+# See README.md for details
+
 
 FROM mcr.microsoft.com/windows/servercore:ltsc2019 as base
 
@@ -44,7 +40,8 @@ RUN powershell.exe -ExecutionPolicy RemoteSigned `
     choco install python2 -y -o -ia "'/qn /norestart ALLUSERS=1 TARGETDIR=c:\Python27'"; `
     choco install 7zip -y; `
     choco install nasm -y; `
-    choco install git -y
+    choco install git -y; `
+    choco install ninja -y
 
 RUN setx `
     PATH "%PATH%;%PROGRAMFILES%/Git/bin;%PROGRAMFILES%/NASM;%PROGRAMFILES%/7-Zip;C:/Python27/Scripts"
@@ -68,6 +65,10 @@ RUN powershell.exe -ExecutionPolicy RemoteSigned `
     "$fileName = 'C:/usd/pxr/imaging/hgi/attachmentDesc.h'; `
     Set-Content $fileName -Value ((Get-Content $fileName) -replace '#include <vector>', $(echo '$&'`n'#include <iostream>'))"
 
+# Download Maya-USD
+RUN powershell.exe -ExecutionPolicy RemoteSigned `
+    git clone --depth 1 https://github.com/Autodesk/maya-usd C:/maya-usd
+
 #######################################################
 
 FROM base as prebuild
@@ -79,4 +80,3 @@ ENTRYPOINT [ "C:\\BuildTools\\Common7\\Tools\\VsDevCmd.bat", "&&" ]
 # python C:/usd/build_scripts/build_usd.py --openvdb --openimageio --opencolorio --alembic --hdf5 --prman --prman-location "C:/prman" C:/build/usd
 
 CMD [ "powershell.exe", "-NoLogo", "-ExecutionPolicy", "Bypass" ]
-
