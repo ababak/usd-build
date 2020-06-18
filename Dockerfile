@@ -76,7 +76,4 @@ FROM base as prebuild
 WORKDIR /build
 
 ENTRYPOINT [ "C:\\BuildTools\\Common7\\Tools\\VsDevCmd.bat", "&&" ]
-
-# python C:/usd/build_scripts/build_usd.py --openvdb --openimageio --opencolorio --alembic --hdf5 --prman --prman-location "C:/prman" C:/build/usd
-
 CMD [ "powershell.exe", "-NoLogo", "-ExecutionPolicy", "Bypass" ]
