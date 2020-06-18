@@ -37,7 +37,7 @@ Build the USD system first.
 
 Execute this command to build Maya USD plugin in your build directory:
 
-    docker run --rm -it -v "$(pwd):c:/build" -v "$(echo $env:RMANTREE):c:/prman" usd-build python c:/maya-usd/build.py --generator Ninja -v 3 --maya-location c:/maya --pxrusd-location c:/build/usd --devkit-location c:/build/devkit --install-location c:/build/usdplugin --build-args="-DBUILD_ADSK_PLUGIN=ON" --generator="Visual Studio 16 2019" c:/build/workspace
+    docker run --rm -it -v "$(pwd):c:/build" -v "c:/Program Files/Autodesk/Maya2020:c:/maya" usd-build python c:/maya-usd/build.py -v 3 --maya-location c:/maya --pxrusd-location c:/build/usd --devkit-location c:/build/devkit --install-location c:/build/usdplugin --build-args="-DBUILD_ADSK_PLUGIN=ON" --generator="Visual Studio 16 2019" c:/build/workspace
 
 ## Alternatively, run the interactive shell for Maya USD plugin
 
@@ -47,8 +47,8 @@ Build the USD system first.
 
 Execute this command from your build directory (USD system should be already built there).
 
-    docker run --rm -it -v "$(pwd):C:/build" -v "c:/Program Files/Autodesk/Maya2020:c:/maya" usd-maya-build
+    docker run --rm -it -v "$(pwd):C:/build" -v "c:/Program Files/Autodesk/Maya2020:c:/maya" usd-build
 
 You may want to run the Maya USD plugin build command manually inside the interactive Powershell:
 
-    python c:/maya-usd/build.py --generator Ninja -v 3 --maya-location c:/maya --pxrusd-location c:/build/usd --devkit-location c:/build/devkit --install-location c:/build/usdplugin --build-args="-DBUILD_ADSK_PLUGIN=ON" --generator="Visual Studio 16 2019" c:/build/workspace
+    python c:/maya-usd/build.py -v 3 --maya-location c:/maya --pxrusd-location c:/build/usd --devkit-location c:/build/devkit --install-location c:/build/usdplugin --build-args="-DBUILD_ADSK_PLUGIN=ON" --generator="Visual Studio 16 2019" c:/build/workspace
