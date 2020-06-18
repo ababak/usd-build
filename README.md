@@ -1,5 +1,5 @@
 # usd-build
-Build the Pixar Universal Scene Description system.
+Build the Pixar Universal Scene Description system and Maya USD plugin.
 
 ## Prepare the image
 
